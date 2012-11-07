@@ -1,0 +1,25 @@
+img {
+    
+    width:280px;
+    height: 200px;
+    
+}
+
+.photos {
+    
+    float:left;
+    padding-right: 5px;
+
+}
+
+.photos .greyscale {
+    
+    filter:grayscale(100%);
+     filter: url(filters.svg#grayscale);
+    -webkit-filter:grayscale(100%);
+    -moz-filter:grayscale(100%);
+    -ms-filter:grayscale(100%);
+    -o-filter:grayscale(100%);
+    
+}
+

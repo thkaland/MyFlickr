@@ -1,0 +1,16 @@
+body h1:first-letter{
+  font-size:200%;
+  text-transform:lowercase;
+  color:red;
+}
+
+ul li img{
+    width:280px;
+    height: 200px;
+}
+
+ul li {
+    float: left;
+    padding-right: 5px;
+    list-style-type: none;
+}
