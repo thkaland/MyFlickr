@@ -43,7 +43,7 @@ import javax.xml.transform.stream.StreamResult;
  *
  * @author godgiven
  */
-@WebServlet(name = "greyscale", urlPatterns = {"/greyscale"})
+@WebServlet(name = "greyscale", urlPatterns = {"/greyscale"}, loadOnStartup = 0)
 public class greyscale extends HttpServlet {
 
     //static Connection con;

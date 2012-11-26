@@ -5,6 +5,18 @@ img {
     
 }
 
+.buttons {
+    
+    float:left;
+    padding-right: 5px;
+
+}
+
+.upload {
+    
+    clear:both; 
+    
+}
 .photos {
     
     float:left;

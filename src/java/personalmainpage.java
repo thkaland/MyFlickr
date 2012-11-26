@@ -32,11 +32,22 @@ public class personalmainpage {
         out.println("</head>");
         out.println("<body>");
 
-        out.println("<p>User: " + username + "</p> " + "<a href=\"index.jsp\">Log Out</a>");
+        out.println("<h1>User: " + username + "</h1> ");
+        
+        out.println("<form class=\"buttons\" action=\"listeners\" method=\"post\" enctype=\"multipart/form-data\">\n" + 
+                    "<input type=\"submit\" value=\"Show Stats\" />\n" + "\n" + "</form>\n" + "\n");
+    
+        out.println("<form class=\"buttons\" action=\"upload\" method=\"post\" enctype=\"multipart/form-data\">\n" + 
+                    "<input type=\"submit\" value=\"Hide Stats\" />\n" + "\n" + "</form>\n" + "\n");
 
-        out.println("<form action=\"upload\" method=\"post\" enctype=\"multipart/form-data\">\n" + "\n"
-                + "<h1>Upload a photo:</h1> <input name=\"uploadedfile\" type=\"file\"/><br/>\n" + "\n"
-                + "<input type=\"submit\" value=\"Upload File\" />\n" + "\n" + "</form>\n" + "\n");
+        out.println("<form class=\"buttons\" action=\"logout\" method=\"post\" enctype=\"multipart/form-data\">\n" + 
+                    "<input type=\"submit\" value=\"Log out\" />\n" + "\n" + "</form>\n" + "\n");      
+
+        
+        out.println("<form class=\"upload\" action=\"upload\" method=\"post\" enctype=\"multipart/form-data\">\n" + 
+                    "<h2>Upload a photo:</h2> <input name=\"uploadedfile\" type=\"file\"/><br/>\n" + 
+                    "<input type=\"submit\" value=\"Upload File\" />\n" + "\n" + "</form>\n" + "\n");
+        
         
         Connection con = null;
         

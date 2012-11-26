@@ -38,11 +38,10 @@ import org.w3c.dom.Element;
  *
  * @author godgiven
  */
-@WebServlet(name = "upload", urlPatterns = {"/upload"})
+@WebServlet(name = "upload", urlPatterns = {"/upload"}, loadOnStartup = 0)
 public class upload extends HttpServlet {
 
     //static Connection con;
-
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -190,11 +189,11 @@ public class upload extends HttpServlet {
                         item.write(savedFile);
 
                         String strQuery = null;
-                        
+
                         Connection con = null;
 
                         try {
-                            
+
                             Class.forName("com.mysql.jdbc.Driver");
                             String connectionUrl = "jdbc:mysql://localhost/flickr?" + "user=root&password=123456";
                             con = DriverManager.getConnection(connectionUrl);
@@ -204,7 +203,7 @@ public class upload extends HttpServlet {
                                 System.out.println("Successful connection to mysql");
 
                             }
-                            
+
                             System.out.println("itemName: " + itemName);
 
                             Statement st = con.createStatement();
@@ -212,14 +211,14 @@ public class upload extends HttpServlet {
                             int rs = st.executeUpdate(strQuery);
 
                             System.out.println("Image inserted successfully");
-                            
+
                             con.close();
                             st.close();
-                            
+
                         } catch (Exception e) {
                             System.out.println(e.getMessage());
                         }
-                        
+
 
                         /*finally {
                          personalmainpage.create_mainpage(username,con, out);
@@ -249,28 +248,27 @@ public class upload extends HttpServlet {
 
     /*public void init(ServletConfig config) throws ServletException {
 
-        super.init(config);
-        con = null;
+     super.init(config);
+     con = null;
 
-        try {
+     try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            String connectionUrl = "jdbc:mysql://localhost/flickr?" + "user=root&password=123456";
-            con = DriverManager.getConnection(connectionUrl);
+     Class.forName("com.mysql.jdbc.Driver");
+     String connectionUrl = "jdbc:mysql://localhost/flickr?" + "user=root&password=123456";
+     con = DriverManager.getConnection(connectionUrl);
 
-            if (con != null) {
+     if (con != null) {
 
-                System.out.println("Successful connection to mysql");
+     System.out.println("Successful connection to mysql");
 
-            }
+     }
 
-        } catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.toString());
-        } catch (ClassNotFoundException cE) {
-            System.out.println("Class Not Found Exception: " + cE.toString());
-        }
-    }*/
-
+     } catch (SQLException e) {
+     System.out.println("SQL Exception: " + e.toString());
+     } catch (ClassNotFoundException cE) {
+     System.out.println("Class Not Found Exception: " + cE.toString());
+     }
+     }*/
     /**
      * Returns a short description of the servlet.
      *

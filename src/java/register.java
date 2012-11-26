@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 
-
 import javax.servlet.annotation.WebServlet;
 import java.io.*;
 import javax.servlet.*;
@@ -15,11 +14,16 @@ import java.sql.*;
  *
  * @author godgiven
  */
-@WebServlet(name = "register", urlPatterns = {"/register"})
+@WebServlet(name = "register", urlPatterns = {"/register"}, loadOnStartup = 0)
 public class register extends HttpServlet {
-    
+
     //static Connection con;
-    
+    public static registerInterface listener = null;
+
+    public static void addRegisterInterface(registerInterface register) {
+        listener = register;
+    }
+
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -32,7 +36,7 @@ public class register extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         String username = request.getParameter("username");
@@ -41,66 +45,82 @@ public class register extends HttpServlet {
         ResultSet rs;
         Connection con = null;
         
+        if (username.equals("")) {
+    
+            out.println("<h1>Invalid username</h1>");
+            out.println("<a href=\"register.html\">Try Again</a>");
+            
+        }
+        else {
         
-        try {
-            
-            Class.forName("com.mysql.jdbc.Driver");
-            String connectionUrl = "jdbc:mysql://localhost/flickr?" +
-                                   "user=root&password=123456";
-            con = DriverManager.getConnection(connectionUrl);
+            try {
 
-            if ( con!=null ) {
-                
-               System.out.println("Successful connection to mysql");
-               
-            }
-            
-            stmt = con.createStatement();
+                Class.forName("com.mysql.jdbc.Driver");
+                String connectionUrl = "jdbc:mysql://localhost/flickr?"
+                        + "user=root&password=123456";
+                con = DriverManager.getConnection(connectionUrl);
 
-            System.out.println("SELECT * FROM users WHERE Username='" + username + "'");
-            rs = stmt.executeQuery("SELECT * FROM users WHERE Username='" + username + "'");
+                if (con != null) {
 
-             while(rs.next()){
+                    System.out.println("Successful connection to mysql");
 
-                if ( rs.getObject(1).toString().equals(username)) {
-                    
-                    out.println("<h1>Username exists</h1>");
-                    out.println("<a href=\"register.html\">Try Again</a>");
-                    
-                    con.close();
-                    stmt.close();
-                    rs.close();
-                    return;
-                    
                 }
 
-             }
-             
-             stmt.close();
-             rs.close();
-             
-             stmt = con.createStatement();
-             
-             if ( !stmt.execute("INSERT INTO users VALUES('" + username+"', '" + password + "')") ) {
-                 
-                 out.println("<h1>You are now registered " + username + "</h1>");
-                 out.println("<a href=\"index.jsp\">Login</a>");
-                 
-             } else {
-                 
-                 out.println("<h1>Username exists</h1>");
-                 out.println("<a href=\"register.html\">Register</a>");
-                 
-             }
-             
-             con.close();
-             
-        } catch (SQLException e) {
+                stmt = con.createStatement();
+
+                rs = stmt.executeQuery("SELECT * FROM users WHERE Username='" + username + "'");
+
+                while (rs.next()) {
+
+                    if (rs.getObject(1).toString().equals(username)) {
+
+                        out.println("<h1>Username exists</h1>");
+                        out.println("<a href=\"register.html\">Try Again</a>");
+
+                        con.close();
+                        stmt.close();
+                        rs.close();
+                        return;
+
+                    }
+
+
+                }
+
+
+                stmt.close();
+                rs.close();
+
+                stmt = con.createStatement();
+
+                if (!stmt.execute("INSERT INTO users VALUES('" + username + "', '" + password + "')")) {
+
+                    if (listener != null) {
+
+                        listener.userRegister(username);
+
+                    }
+
+                    out.println("<h1>You are now registered " + username + "</h1>");
+                    out.println("<a href=\"index.jsp\">Login</a>");
+
+                } else {
+
+                    out.println("<h1>Username exists</h1>");
+                    out.println("<a href=\"register.html\">Register</a>");
+
+                }
+
+                con.close();
+
+            } catch (SQLException e) {
                 throw new ServletException("Servlet Could not display records.", e);
-        } catch (ClassNotFoundException cE) {
-            System.out.println("Class Not Found Exception: "+ cE.toString());
+            } catch (ClassNotFoundException cE) {
+                System.out.println("Class Not Found Exception: " + cE.toString());
+            }
+            
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -143,29 +163,29 @@ public class register extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
     /*public void init(ServletConfig config) throws ServletException
-    {
-        super.init(config);
-        con = null;
-        
-        try {
-            
-            Class.forName("com.mysql.jdbc.Driver");
-            String connectionUrl = "jdbc:mysql://localhost/flickr?" +
-                                   "user=root&password=123456";
-            con = DriverManager.getConnection(connectionUrl);
+     {
+     super.init(config);
 
-            if ( con!=null ) {
-                
-               System.out.println("Successful connection to mysql");
-               
-            }
+     Connection con = null;
+        
+     try {
             
-        } catch (SQLException e) {
-            System.out.println("SQL Exception: "+ e.toString());
-        } catch (ClassNotFoundException cE) {
-            System.out.println("Class Not Found Exception: "+ cE.toString());
-        }
-    }*/
+     Class.forName("com.mysql.jdbc.Driver");
+     String connectionUrl = "jdbc:mysql://localhost/flickr?" +
+     "user=root&password=123456";
+     con = DriverManager.getConnection(connectionUrl);
+
+     if ( con!=null ) {
+                
+     System.out.println("Successful connection to mysql");
+               
+     }
+             
+     } catch (SQLException e) {
+     System.out.println("SQL Exception: "+ e.toString());
+     } catch (ClassNotFoundException cE) {
+     System.out.println("Class Not Found Exception: "+ cE.toString());
+     }
+     }*/
 }
